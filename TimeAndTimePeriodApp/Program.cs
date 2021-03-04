@@ -13,8 +13,8 @@ namespace TimeAndTimePeriodApp
             Time p3 = new Time(10, 10, 10);
             TimePeriod p4 = new TimePeriod(2, 20, 9);
             TimePeriod p5 = new TimePeriod(2, 10, 9);
-            Time p6 = new Time(10, 10);
-
+            Time p6 = new Time(10, 10, 59);
+            Time p7 = new Time("12:22:1");
 
             Console.WriteLine(p1 - p2);
             Console.WriteLine(p1);
@@ -29,6 +29,9 @@ namespace TimeAndTimePeriodApp
             Console.WriteLine(p1a.Equals(p1));
             Console.WriteLine(p4.Equals(p5));
             Console.WriteLine(p6);
+            Console.WriteLine(p7);
+
+            
         }
     }
 }

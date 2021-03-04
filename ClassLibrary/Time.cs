@@ -4,15 +4,39 @@ using System.Text;
 
 namespace ClassLibrary
 {
+    /// <summary>
+    /// The Time struct describes a point in time.
+    /// </summary>
+    /// <remarks>
+    /// This struct can compare points in time, show them and add or substract to each other or to the TimePeriod struct.
+    /// </remarks>
     public struct Time : IEquatable<Time>, IComparable<Time>
     {
+        ///<value>Gets number of hours in Time struct</value>
+        public byte Hours { get { return _Hours; } }
+        private readonly byte _Hours;
+
+        ///<value>Gets number of minutes in Time struct</value>
+        public byte Minutes { get { return _Minutes; } }
+        private readonly byte _Minutes;
+
+        ///<value>Gets number of seconds in Time struct</value>
+        public byte Seconds { get { return _Seconds; } }
+        private readonly byte _Seconds;
+
+        /// <summary>
+        /// Correct range of input values is 00:00:00 … 23:59:59. Other input value will cause ArgumentOutOfRangeException to be thrown.
+        /// </summary>
+        /// <param name="hours"></param>
+        /// <param name="minutes"></param>
+        /// <param name="seconds"></param>
         public Time(byte hours, byte minutes, byte seconds)
         {
-            if (hours < 0 || hours > 24)
+            if (hours < 0 || hours > 23)
                 throw new ArgumentOutOfRangeException();
-            if (minutes < 0 || minutes > 60)
+            if (minutes < 0 || minutes > 59)
                 throw new ArgumentOutOfRangeException();
-            if (seconds < 0 || seconds > 60)
+            if (seconds < 0 || seconds > 59)
                 throw new ArgumentOutOfRangeException();
 
             _Hours = hours;
@@ -21,42 +45,62 @@ namespace ClassLibrary
         }
 
         public Time(byte hours, byte minutes) : this(hours, minutes, 00) { }
+
+      
         public Time(byte hours) : this(hours, 00, 00) { }
+
+        /// <summary>
+        /// Input string requires to be formatted like "hh:mm:ss" in range 00:00:00 … 23:59:59, otherwise exception will be thrown.
+        /// </summary>
+        /// <param name="hms"></param>
         public Time(string hms)
         {
             string[] arr = hms.Split(':');
 
-            this._Hours = Convert.ToByte(arr[0]);
-            this._Minutes = Convert.ToByte(arr[1]);
-            this._Seconds = Convert.ToByte(arr[2]);
+            _Hours = 0;
+            _Minutes = 0;
+            _Seconds = 0;
+
+            if (!hms.Contains(":") || string.IsNullOrEmpty(hms) || arr.Length != 3)
+            {
+                throw new FormatException("The required format is hh:mm:ss");
+            }
+
+            bool flagH = int.TryParse(arr[0], out int h);
+            bool flagM = int.TryParse(arr[1], out int m);
+            bool flagS = int.TryParse(arr[2], out int s);
+
+            if( flagH && flagM && flagS)
+            {
+                if(h >= 0 && h <= 23 && m >= 0 && m<= 59 && s >= 0 && s <= 59)
+                {
+                    _Hours = (byte)h;
+                    _Minutes = (byte)m;
+                    _Seconds = (byte)s;
+                }
+                else
+                    throw new FormatException("The required range is 00:00:00 … 23:59:59");
+            }
+            else
+                new FormatException("The required range is 00:00:00 … 23:59:59");
         }
 
-        public byte Hours { get { return _Hours; } }
-        private readonly byte _Hours;
-        public byte Minutes { get { return _Minutes; } }
-        private readonly byte _Minutes;
-        public byte Seconds { get { return _Seconds; } }
-        private readonly byte _Seconds;
 
         public override string ToString() => $"{_Hours}:{_Minutes}:{_Seconds}";
 
         public bool Equals(Time other)
         {
-            return Hours == other.Hours &&
-                    Minutes == other.Minutes &&
-                    Seconds == other.Seconds;
+            return _Hours == other._Hours &&
+                    _Minutes == other._Minutes &&
+                    _Seconds == other._Seconds;
         }
 
-        public override bool Equals(object obj)
+    public override bool Equals(object obj)
         {
             return obj is Time equatable && Equals(equatable);
         }
 
-        public override int GetHashCode()
-        {
-            return _Hours.GetHashCode() + _Minutes.GetHashCode() + _Seconds.GetHashCode();
-        }
-
+        public override int GetHashCode() => (_Hours, _Minutes, _Seconds).GetHashCode();
         public static bool operator ==(Time t1, Time t2)
         {
             return t1.Equals(t2);

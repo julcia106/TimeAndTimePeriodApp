@@ -4,8 +4,17 @@ using System.Text;
 
 namespace ClassLibrary
 {
+    /// <summary>
+    /// The TimePeriod struct represents the length of the period in time, the distance between two points in time.
+    /// </summary>
+    /// <remarks>
+    /// This struct can compare  time periods, show them and add or substract to each other or to the Time struct.
+    /// </remarks>
     public struct TimePeriod : IEquatable<TimePeriod>, IComparable<TimePeriod>
     {
+        ///<value>Gets number of seconds in TimePeriod struct</value>
+        public long Seconds { get { return _Seconds; } }
+        private readonly long _Seconds;
         public TimePeriod(long seconds)
         {
             _Seconds = seconds;
@@ -40,8 +49,6 @@ namespace ClassLibrary
         }
 
 
-        public long Seconds { get { return _Seconds; } }
-        private readonly long _Seconds;
 
         public bool Equals(TimePeriod other)
         {
@@ -53,11 +60,7 @@ namespace ClassLibrary
             return obj is Time equatable && Equals(equatable);
         }
 
-        public override int GetHashCode()
-        {
-            return (int)_Seconds;
-        }
-
+        public override int GetHashCode() => (int)_Seconds.GetHashCode();
         public int CompareTo(TimePeriod other)
         {
             return (int)(this.Seconds - other.Seconds);
