@@ -17,6 +17,8 @@ namespace ClassLibrary
         private readonly long _Seconds;
         public TimePeriod(long seconds)
         {
+            if (seconds < 0)
+                throw new ArgumentOutOfRangeException("The seconds value must be greater than 0.");
             _Seconds = seconds;
         }
 
@@ -40,15 +42,29 @@ namespace ClassLibrary
         {
             string[] arr = hms.Split(':');
 
+            _Seconds = 0;
 
-            int hours = Convert.ToInt32(arr[0]);
-            int minutes = Convert.ToInt32(arr[1]);
-            int seconds = Convert.ToInt32(arr[2]);
+            if (!hms.Contains(":") || string.IsNullOrEmpty(hms) || arr.Length != 3)
+            {
+                throw new FormatException("The required format is hh:mm:ss");
+            }
 
-            _Seconds = (hours * 3600) + (minutes * 60) + seconds;
+            bool flagH = int.TryParse(arr[0], out int h);
+            bool flagM = int.TryParse(arr[1], out int m);
+            bool flagS = int.TryParse(arr[2], out int s);
+
+            if(flagH && flagM && flagS)
+            {
+                if (h >= 0 && m >= 0 && s >= 0)
+                {
+                    _Seconds = (h * 3600) + (m * 60) + s;
+                }
+                else
+                    throw new FormatException("Values must be greater than 0");
+            }
+            else
+                throw new FormatException("Values must be greater than 0");
         }
-
-
 
         public bool Equals(TimePeriod other)
         {
@@ -99,8 +115,8 @@ namespace ClassLibrary
         public override string ToString()
         {
             long hours = Seconds / 3600;
-            long minutes = (Seconds - hours) / 60;
-            long seconds = Seconds % minutes;
+            long minutes = (Seconds / 60) % 60;
+            long seconds = Seconds % 60;
 
             return ($"{hours}:{minutes}:{seconds}");
         }

@@ -18,7 +18,7 @@ namespace TimeAndTimePeriodApp
 
             Console.WriteLine(p1 - p2);
             Console.WriteLine(p1);
-            Console.WriteLine(p1.Plus(p4));
+            Console.WriteLine(p1.PlusTimePeriod(p4));
             Console.WriteLine(p3 + p5);
             Console.WriteLine(p1.GetHashCode());
             Console.WriteLine(Time.Plus(p1, p4));
@@ -30,6 +30,9 @@ namespace TimeAndTimePeriodApp
             Console.WriteLine(p4.Equals(p5));
             Console.WriteLine(p6);
             Console.WriteLine(p7);
+
+            TimePeriod p10 = new TimePeriod("25:70:30");
+            Console.WriteLine(p10);
 
             
         }

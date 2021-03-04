@@ -44,14 +44,25 @@ namespace ClassLibrary
             _Seconds = seconds;
         }
 
+        /// <summary>
+        /// Correct range of input values is 00:00:00 … 23:59:59. Other input value will cause ArgumentOutOfRangeException to be thrown.
+        /// </summary>
+        /// <param name="hours"></param>
+        /// <param name="minutes"></param>
         public Time(byte hours, byte minutes) : this(hours, minutes, 00) { }
 
-      
+        /// <summary>
+        /// Correct range of input values is 00:00:00 … 23:59:59. Other input value will cause ArgumentOutOfRangeException to be thrown.
+        /// </summary>
+        /// <param name="hours"></param>
         public Time(byte hours) : this(hours, 00, 00) { }
 
         /// <summary>
-        /// Input string requires to be formatted like "hh:mm:ss" in range 00:00:00 … 23:59:59, otherwise exception will be thrown.
+        /// Initializes the hours, minutes and seconds values from the string argument.
         /// </summary>
+        /// <exception cref="System.FormatException">
+        /// Thrown when parameter is not formatted like "hh:mm:ss" and is not in the range of 00:00:00 … 23:59:59.
+        /// </exception>
         /// <param name="hms"></param>
         public Time(string hms)
         {
@@ -85,7 +96,10 @@ namespace ClassLibrary
                 new FormatException("The required range is 00:00:00 … 23:59:59");
         }
 
-
+        /// <summary>
+        /// Formats point in time to form "hh:mm:ss" 
+        /// </summary>
+        /// <returns></returns>
         public override string ToString() => $"{_Hours}:{_Minutes}:{_Seconds}";
 
         public bool Equals(Time other)
@@ -111,6 +125,15 @@ namespace ClassLibrary
             return !(t1 == t2);
         }
 
+        /// <summary>
+        /// Substract two point of Time and returns the result.
+        /// </summary>
+        /// <returns>
+        /// Returns the result of the subtraction of two points in time.
+        /// </returns>
+        /// <param name="t1"></param>
+        /// <param name="t2"></param>
+        /// <returns></returns>
         public static Time operator -(Time t1, Time t2)
         {
             Time time;
@@ -165,7 +188,7 @@ namespace ClassLibrary
             return t1.CompareTo(t2) <= 0;
         }
 
-        public Time Plus(TimePeriod t1)
+        public Time PlusTimePeriod(TimePeriod t1)
         {
             Time time;
 
