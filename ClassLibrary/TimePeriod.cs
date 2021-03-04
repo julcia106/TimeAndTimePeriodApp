@@ -118,7 +118,7 @@ namespace ClassLibrary
             long minutes = (Seconds / 60) % 60;
             long seconds = Seconds % 60;
 
-            return ($"{hours}:{minutes}:{seconds}");
+            return ($"{hours:D2}:{minutes:D2}:{seconds:D2}");
         }
 
         public TimePeriod Plus(TimePeriod t1)

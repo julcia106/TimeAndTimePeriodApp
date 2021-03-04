@@ -100,7 +100,7 @@ namespace ClassLibrary
         /// Formats point in time to form "hh:mm:ss" 
         /// </summary>
         /// <returns></returns>
-        public override string ToString() => $"{_Hours}:{_Minutes}:{_Seconds}";
+        public override string ToString() => $"{_Hours:D2}:{_Minutes:D2}:{_Seconds:D2}";
 
         public bool Equals(Time other)
         {

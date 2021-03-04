@@ -31,8 +31,9 @@ namespace TimeAndTimePeriodApp
             Console.WriteLine(p6);
             Console.WriteLine(p7);
 
-            TimePeriod p10 = new TimePeriod("25:70:30");
+            TimePeriod p10 = new TimePeriod("25:70:3");
             Console.WriteLine(p10);
+            p10.ToString();
 
             
         }
