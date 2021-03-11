@@ -5,7 +5,7 @@ using System;
 namespace UnitTestProject
 {
     [TestClass]
-    public class UnitTest
+    public class TimeTests
     {
         [DataTestMethod]
         [DataRow((byte)30)]
@@ -104,5 +104,141 @@ namespace UnitTestProject
             Time time = new Time(h, m, s);
             Assert.AreEqual(time.ToString(), expected);
         }
+
+        [DataTestMethod]
+        [DataRow((byte)1, (byte)2, (byte)3, (byte)1, (byte)2, (byte)2)]
+        [DataRow((byte)12, (byte)13, (byte)14, (byte)11, (byte)12, (byte)13)]
+        [DataRow((byte)5, (byte)0, (byte)0, (byte)3, (byte)0, (byte)0)]
+        [DataRow((byte)4, (byte)33, (byte)23, (byte)4, (byte)32, (byte)23)]
+        public void Greater_Than_Operator(byte h1, byte m1, byte s1, byte h2, byte m2, byte s2)
+        {
+            Time time = new Time(h1, m1, s1);
+            Time time2 = new Time(h2, m2, s2);
+            Assert.AreEqual(true, time > time2);
+        }
+
+        [DataTestMethod]
+        [DataRow((byte)3, (byte)57, (byte)56, (byte)23, (byte)58, (byte)56)]
+        [DataRow((byte)0, (byte)0, (byte)0, (byte)2, (byte)0, (byte)0)]
+        [DataRow((byte)10, (byte)0, (byte)2, (byte)10, (byte)0, (byte)10)]
+        [DataRow((byte)20, (byte)0, (byte)0, (byte)23, (byte)1, (byte)2)]
+        public void Less_Than_Operator(byte h1, byte m1, byte s1, byte h2, byte m2, byte s2)
+        {
+            Time time = new Time(h1, m1, s1);
+            Time time2 = new Time(h2, m2, s2);
+
+            Assert.AreEqual(true, time < time2);
+        }
+
+        [DataTestMethod]
+        [DataRow((byte)23, (byte)59, (byte)56, (byte)23, (byte)56, (byte)56)]
+        [DataRow((byte)0, (byte)0, (byte)1, (byte)0, (byte)0, (byte)0)]
+        [DataRow((byte)10, (byte)0, (byte)2, (byte)10, (byte)0, (byte)2)]
+        [DataRow((byte)20, (byte)0, (byte)0, (byte)20, (byte)0, (byte)0)]
+        public void Greater_Or_Equal_Than_Operator(byte h1, byte m1, byte s1, byte h2, byte m2, byte s2)
+        {
+            Time time = new Time(h1, m1, s1);
+            Time time2 = new Time(h2, m2, s2);
+            Assert.AreEqual(true, time >= time2);
+        }
+
+        [DataTestMethod]
+        [DataRow((byte)23, (byte)56, (byte)56, (byte)23, (byte)56, (byte)56)]
+        [DataRow((byte)0, (byte)0, (byte)1, (byte)0, (byte)2, (byte)3)]
+        [DataRow((byte)10, (byte)0, (byte)2, (byte)10, (byte)0, (byte)2)]
+        [DataRow((byte)20, (byte)0, (byte)0, (byte)22, (byte)3, (byte)1)]
+        [DataRow((byte)20, (byte)0, (byte)0, (byte)20, (byte)1, (byte)1)]
+        public void Less_Or_Equal_Than_Operator(byte h1, byte m1, byte s1, byte h2, byte m2, byte s2)
+        {
+            Time time = new Time(h1, m1, s1);
+            Time time2 = new Time(h2, m2, s2);
+            Assert.AreEqual(true, time <= time2);
+        }
+
+        [DataTestMethod]
+        [DataRow((byte)23, (byte)56, (byte)56, (byte)23, (byte)56, (byte)56)]
+        [DataRow((byte)0, (byte)0, (byte)1, (byte)0, (byte)0, (byte)1)]
+        [DataRow((byte)10, (byte)0, (byte)2, (byte)10, (byte)0, (byte)2)]
+        [DataRow((byte)22, (byte)3, (byte)1, (byte)22, (byte)3, (byte)1)]
+        [DataRow((byte)20, (byte)1, (byte)1, (byte)20, (byte)1, (byte)1)]
+        public void Equal_Operator(byte h1, byte m1, byte s1, byte h2, byte m2, byte s2)
+        {
+            Time time = new Time(h1, m1, s1);
+            Time time2 = new Time(h2, m2, s2);
+            Assert.AreEqual(true, time == time2);
+        }
+
+        [DataTestMethod]
+        [DataRow((byte)23, (byte)59, (byte)56, (byte)23, (byte)56, (byte)56)]
+        [DataRow((byte)0, (byte)0, (byte)1, (byte)0, (byte)0, (byte)0)]
+        [DataRow((byte)10, (byte)0, (byte)2, (byte)10, (byte)34, (byte)2)]
+        [DataRow((byte)20, (byte)2, (byte)3, (byte)20, (byte)0, (byte)0)]
+        public void Not_Equal_Operator(byte h1, byte m1, byte s1, byte h2, byte m2, byte s2)
+        {
+            Time time = new Time(h1, m1, s1);
+            Time time2 = new Time(h2, m2, s2);
+            Assert.AreEqual(true, time != time2);
+        }
+
+        [DataTestMethod]
+        [DataRow((byte)23, (byte)56, (byte)56, (byte)23, (byte)56, (byte)56)]
+        [DataRow((byte)0, (byte)0, (byte)1, (byte)0, (byte)0, (byte)1)]
+        [DataRow((byte)10, (byte)0, (byte)2, (byte)10, (byte)0, (byte)2)]
+        [DataRow((byte)22, (byte)3, (byte)1, (byte)22, (byte)3, (byte)1)]
+        [DataRow((byte)20, (byte)1, (byte)1, (byte)20, (byte)1, (byte)1)]
+        public void Equals_Method(byte h1, byte m1, byte s1, byte h2, byte m2, byte s2)
+        {
+            Time time = new Time(h1, m1, s1);
+            Time time2 = new Time(h2, m2, s2);
+            Assert.AreEqual(true, time.Equals(time2));
+        }
+
+        [DataTestMethod]
+        [DataRow((byte)0, (byte)0, (byte)0, "00:00:00")]
+        [DataRow((byte)10, (byte)10, (byte)10, "10:10:10")]
+        [DataRow((byte)20, (byte)5, (byte)2, "20:05:02")]
+        [DataRow((byte)23, (byte)59, (byte)59, "23:59:59")]
+        public void String_Constructor_And_Equal_Operator(byte h, byte m, byte s, string input)
+        {
+            Time t1 = new Time(h, m, s);
+            Time t2 = new Time(input);
+            Assert.AreEqual(true, t1 == t2);
+        }
+
+        [DataTestMethod]
+        [DataRow((byte)10, (byte)10, (byte)10, (long)20, "10:10:30")]
+        [DataRow((byte)10, (byte)10, (byte)10, (long)60, "10:11:10")]
+        [DataRow((byte)10, (byte)10, (byte)10, (long)3600, "11:10:10")]
+        [DataRow((byte)10, (byte)50, (byte)10, (long)3610, "11:50:20")]
+        [DataRow((byte)10, (byte)50, (byte)10, (long)3660, "11:51:10")]
+        public void Plus_TimePeriod(byte h, byte m, byte s, long seconds, string result)
+        {
+            Time time = new Time(h, m, s);
+            TimePeriod timePeriod = new TimePeriod(seconds);
+
+            Time time1 = time.PlusTimePeriod(timePeriod);
+            Assert.AreEqual(result, time1.ToString());
+        }
+
+        [DataTestMethod]
+        [DataRow((byte)10, (byte)10, (byte)10, (long)20, "10:10:30")]
+        [DataRow((byte)10, (byte)10, (byte)10, (long)60, "10:11:10")]
+        [DataRow((byte)10, (byte)10, (byte)10, (long)3600, "11:10:10")]
+        [DataRow((byte)10, (byte)50, (byte)10, (long)3610, "11:50:20")]
+        [DataRow((byte)10, (byte)50, (byte)10, (long)3660, "11:51:10")]
+        public void Operator_Plus(byte h, byte m, byte s, long seconds, string result)
+        {
+            Time time = new Time(h, m, s);
+            TimePeriod timePeriod = new TimePeriod(seconds);
+
+            Time time1 = time + timePeriod;
+            Assert.AreEqual(result, time1.ToString());
+        }
+
+    }
+
+    public class TimePeriodTests
+    {
+
     }
 }

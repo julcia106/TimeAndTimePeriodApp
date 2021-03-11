@@ -159,13 +159,24 @@ namespace ClassLibrary
                 totalSeconds += (h * 3600);
             if (m != 0)
                 totalSeconds += (m * 60);
+            if (s != 0)
+                totalSeconds += s;
 
-            return totalSeconds + s;
+            return totalSeconds;
         }
 
         public int CompareTo(Time obj)
         {
-            return getSecondsDifference(obj);
+            var h = Hours - obj.Hours;
+            var m = Minutes - obj.Minutes;
+            var s = Seconds - obj.Seconds;
+
+            if (h < 0 || m < 0 || s <0)
+                return -1;
+            else if (h > 0 || m > 0 || s > 0)
+                return 1;
+            else
+                return 0;
         }
 
         public static bool operator >(Time t1, Time t2)
@@ -192,12 +203,12 @@ namespace ClassLibrary
         {
             Time time;
 
-            var TimePeriodHours = (t1.Seconds / 3600);
-            var TimePeriodMinutes = (t1.Seconds - TimePeriodHours) / 60;
+            var TimePeriodHours = (t1.Seconds / 3600); 
+            var TimePeriodMinutes = (t1.Seconds % 3600) / 60;
             var TimePeriodSeconds = t1.Seconds % 60;
 
-            var hour = (TimePeriodHours + Hours) % 24;
-            var minutes = (TimePeriodMinutes + Minutes) % 60;
+            var hour = (TimePeriodHours + Hours);
+            var minutes = (TimePeriodMinutes + Minutes);
             var seconds = TimePeriodSeconds + Seconds;
 
             time = new Time((byte)hour, (byte)minutes, (byte)seconds);
@@ -207,36 +218,12 @@ namespace ClassLibrary
 
         public static Time Plus(Time t1, TimePeriod t2)
         {
-            Time time;
-
-            var TimePeriodHours = t2.Seconds / 3600;
-            var TimePeriodMinutes = (t2.Seconds - TimePeriodHours) / 60;
-            var TimePeriodSeconds = t2.Seconds % 60;
-
-            var hour = (t1.Hours + TimePeriodHours) % 24;
-            var minutes = (t1.Minutes + TimePeriodMinutes) % 60;
-            var seconds = t1.Seconds + TimePeriodSeconds;
-
-            time = new Time((byte)hour, (byte)minutes, (byte)seconds);
-
-            return time;
+            return t1.PlusTimePeriod(t2);
         }
 
         public static Time operator +(Time t1, TimePeriod t2)
         {
-            Time time;
-
-            var TimePeriodHours = t2.Seconds / 3600;
-            var TimePeriodMinutes = (t2.Seconds - TimePeriodHours) / 60;
-            var TimePeriodSeconds = t2.Seconds % 60;
-
-            var hour = (t1.Hours + TimePeriodHours) % 24;
-            var minutes = (t1.Minutes + TimePeriodMinutes) % 60;
-            var seconds = t1.Seconds + TimePeriodSeconds;
-
-            time = new Time((byte)hour, (byte)minutes, (byte)seconds);
-
-            return time;
+            return t1.PlusTimePeriod(t2);
         }
 
     }
