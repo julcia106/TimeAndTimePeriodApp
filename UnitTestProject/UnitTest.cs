@@ -237,8 +237,77 @@ namespace UnitTestProject
 
     }
 
+    [TestClass]
     public class TimePeriodTests
     {
+        [DataTestMethod]
+        [DataRow(3600, 3600)]
+        [DataRow(0, 0)]
+        [DataRow(44, 44)]
+        [DataRow(12, 12)]
+        public void TimePeriod_Constructor(long seconds, long expected)
+        {
+            TimePeriod timePeriod = new TimePeriod(seconds);
+            Assert.AreEqual(timePeriod.Seconds, expected);
+        }
 
+        [DataTestMethod]
+        [DataRow(-2)]
+        [DataRow(long.MaxValue)]
+        [DataRow(-100)]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void TimePeriod_Constructor_WrongValues(long seconds)
+        {
+            seconds++;
+            TimePeriod tp = new TimePeriod(seconds);
+        }
+
+        [DataTestMethod]
+        [DataRow("0:0:0")]
+        [DataRow("00:00:00")]
+        [DataRow("01:01:01")]
+        [DataRow("02:12:12")]
+        [DataRow("23:59:59")]
+        [DataRow("1:59:0")]
+        [DataRow("534554:59:59")]
+        public void TimePeriod_Constructor_StringCorrect(string input)
+        {
+            TimePeriod t = new TimePeriod(input);
+        }
+
+        [DataTestMethod]
+        [DataRow("abcd")]
+        [DataRow("hh:mm:ss")]
+        [DataRow("")]
+        [DataRow("00")]
+        [DataRow("12:12::")]
+        [DataRow("1:2,5,:")]
+        [ExpectedException(typeof(FormatException))]
+        public void TimePeriod_Constructor_String_Wrong(string input)
+        {
+            TimePeriod t = new TimePeriod(input);
+        }
+
+        [DataTestMethod]
+        [DataRow((byte)1, (byte)0, 3600)]
+        [DataRow((byte)1, (byte)10, 4200)]
+        [DataRow((byte)2, (byte)0, 2 * 3600)]
+        [DataRow((byte)0, (byte)1, 60)]
+        public void TimePeriod_Contructor_Hours_Minutes(byte h, byte m, long secondsExpected)
+        {
+            TimePeriod timePeriod = new TimePeriod(h, m);
+            Assert.AreEqual(timePeriod.Seconds, secondsExpected);
+        }
+
+        [DataTestMethod]
+        [DataRow((byte)1, (byte)0, (byte)10, 3610)]
+        [DataRow((byte)1, (byte)10, (byte)10, 4210)]
+        [DataRow((byte)2, (byte)0, (byte)0, 2 * 3600)]
+        [DataRow((byte)0, (byte)0, (byte)30, 30)]
+        public void TimePeriod_Contructor_Hours_Minutes_Seconds(byte h, byte m, byte s, long secondsExpected)
+        {
+            TimePeriod timePeriod = new TimePeriod(h, m, s);
+            Assert.AreEqual(timePeriod.Seconds, secondsExpected);
+        }
     }
 }

@@ -115,7 +115,7 @@ namespace ClassLibrary
         public override string ToString()
         {
             long hours = Seconds / 3600;
-            long minutes = (Seconds / 60) % 60;
+            long minutes = (Seconds % 3600) / 60;
             long seconds = Seconds % 60;
 
             return ($"{hours:D2}:{minutes:D2}:{seconds:D2}");
@@ -133,23 +133,13 @@ namespace ClassLibrary
 
         public static TimePeriod Plus(TimePeriod t1, TimePeriod t2)
         {
-            TimePeriod timePeriod;
-
-            var SumSeconds = t1.Seconds + t2.Seconds;
-
-            timePeriod = new TimePeriod(SumSeconds);
-            return timePeriod;
+            return t1.Plus(t2);
         }
 
         public static TimePeriod operator +(TimePeriod t1, TimePeriod t2)
         {
 
-            TimePeriod timePeriod;
-
-            var SumSeconds = t1.Seconds + t2.Seconds;
-
-            timePeriod = new TimePeriod(SumSeconds);
-            return timePeriod;
+            return t1.Plus(t2);
         }
     }
 }
