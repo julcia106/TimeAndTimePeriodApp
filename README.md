@@ -1,7 +1,6 @@
 # C#-Lab: Implementacja `Time`, `TimePeriod`
 
-* Autor: Krzysztof Molenda
-* Wersja: 0.2 (2020-11-08)
+* Autor treści zadania: Krzysztof Molenda
 * Zagadnienia: projektowanie typu danych, typ strukturalny (`struct`), implementacja interfejsów, przeciążanie operatorów, praca na wielu plikach, testowanie funkcjonalności, properties i auto-properties, zapewnianie niezmienniczości (_immutability_) zmiennych.
 
 _UWAGA_: Zadanie ma charakter ćwiczebny. W bibliotekach C# dostępne są gotowe struktury/klasy realizujące (prawdopodobnie lepiej) przedstawione założenia (`DateTime`, `DateTimeOfset`, `TimeSpan`). Jednak realizacja tego zadania pozwala lepiej zrozumieć ich działanie.
